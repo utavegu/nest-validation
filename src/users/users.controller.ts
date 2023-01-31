@@ -1,4 +1,10 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  ParseIntPipe,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { InformInterceptor } from 'src/interceptors/inform.interceptor';
 import { WrapperInterceptor } from 'src/interceptors/wrapper.interceptor';
@@ -16,5 +22,10 @@ export class UsersController {
       throw new Error('Специально-сгеренированная ошибка');
     }
     return this.userService.getUsers();
+  }
+
+  @Get('/user')
+  findOne(@Query('id', ParseIntPipe) id: number) {
+    return `Найден пользователь с идентификатором ${id}`;
   }
 }
